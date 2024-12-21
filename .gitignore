@@ -8,3 +8,6 @@ data
 videos
 .old
 *.gitignore
+/.vs
+/jetson-nano
+/video_file_input
