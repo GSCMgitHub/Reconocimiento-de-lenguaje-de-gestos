@@ -7,3 +7,4 @@ frame_actions
 data
 videos
 .old
+*.gitignore
