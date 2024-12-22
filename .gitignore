@@ -11,3 +11,4 @@ videos
 /.vs
 /jetson-nano
 /video_file_input
+*.mp4
