@@ -1,4 +1,4 @@
-Este es un modelo de una red neuronal que traduce Lengua de Señas Peruana (LSP) a texto (y voz). Utilicé MediaPipe para obtener los puntos de la seña y para el entrenamiento usé TensorFlow y Keras.
+Este es un modelo de una red neuronal que traduce Lengua de Señas Ecuatoriana (LSEC) a texto (y voz). Se ha utilizado MediaPipe para obtener los puntos de la seña y para el entrenamiento se usan TensorFlow y Keras.
 
 ## SCRIPTS PRINCIPALES
 - capture_samples.py → captura las muestras y las ubica en la carpeta frame_actions.
@@ -6,7 +6,7 @@ Este es un modelo de una red neuronal que traduce Lengua de Señas Peruana (LSP)
 - create_keypoints.py → crea los keypoints que se usarán en el entrenamiento.
 - training_model.py → entrena la red neuronal.
 - evaluate_model.py → donde se realiza la prueba de la red neuronal.
-- main.py → donde se utiliza una GUI para usar el traductor.
+- main.py → donde se utiliza una GUI (interfaz) para usar el traductor.
 
 ## SCRIPTS SECUNDARIOS
 - model.py → aquí se ajusta el modelo de la red neuronal.
@@ -20,6 +20,6 @@ Este es un modelo de una red neuronal que traduce Lengua de Señas Peruana (LSP)
 3. Entrenar el modelo con training_model.py
 4. Realizar pruebas con evaluate_model.py
 
-## Video de la explicación del código:
+## Video de la explicación del código original:
 https://youtu.be/3EK0TxfoAMk
-Nota: Pronto subiré otro video explicando las mejoras.
+Nota: Esta es una versión modificada, el video explica sobre la versión original.
