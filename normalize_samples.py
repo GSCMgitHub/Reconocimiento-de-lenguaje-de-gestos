@@ -43,10 +43,15 @@ def process_directory(word_directory, target_frame_count=15):
     for sample_name in os.listdir(word_directory):
         sample_directory = os.path.join(word_directory, sample_name)
         if os.path.isdir(sample_directory):
-            frames = read_frames_from_directory(sample_directory)
-            normalized_frames = normalize_frames(frames, target_frame_count)
-            clear_directory(sample_directory)
-            save_normalized_frames(sample_directory, normalized_frames)
+            try:
+                frames = read_frames_from_directory(sample_directory)
+                normalized_frames = normalize_frames(frames, target_frame_count)
+                clear_directory(sample_directory)
+                save_normalized_frames(sample_directory, normalized_frames)
+            except IndexError:
+                print("IndexError: no frames found", sample_directory)
+            continue
+
 
 def save_normalized_frames(directory, frames):
     for i, frame in enumerate(frames, start=1):
