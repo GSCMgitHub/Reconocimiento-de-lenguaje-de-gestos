@@ -12,3 +12,5 @@ videos
 /jetson-nano
 /video_file_input
 *.mp4
+models/words.json
+clip.mp4

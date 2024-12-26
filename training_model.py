@@ -7,8 +7,17 @@ from keras.utils import to_categorical
 from helpers import get_word_ids, get_sequences_and_labels
 from constants import *
 
+
+def get_first_files_os(path):
+    files = os.listdir(path)
+    if files:
+        return os.path.join(path, files[0])
+    return None
+
+
+
 def training_model(model_path, epochs=500):
-    word_ids = get_word_ids(WORDS_JSON_PATH ) # ['word1', 'word2', 'word3]
+    word_ids = get_word_ids(WORDS_JSON_PATH) # ['word1', 'word2', 'word3]
     
     sequences, labels = get_sequences_and_labels(word_ids)
     

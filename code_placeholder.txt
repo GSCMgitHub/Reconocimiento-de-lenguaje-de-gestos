@@ -1,0 +1,8 @@
+# Listas de ejemplo
+claves = ["nombre", "edad", "ciudad"]
+valores = ["Juan", 30, "Madrid"]
+
+# Convertir listas en un diccionario
+diccionario = dict(zip(claves, valores))
+
+print(diccionario)
