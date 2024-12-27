@@ -1,9 +1,11 @@
 {
-    "aislarse": "aislarse",
-    "buenos_dias": "buenos dias",
-    "camisa": "camisa",
-    "cartel": "cartel",
-    "escuelas": "escuelas",
-    "hola": "hola",
-    "hospital": "hospital"
+    "word_ids": [
+        "aislarse",
+        "buenos_dias",
+        "camisa",
+        "cartel",
+        "escuelas",
+        "hola",
+        "hospital"
+    ]
 }

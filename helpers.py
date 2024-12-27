@@ -112,6 +112,7 @@ def get_sequences_and_labels(words_id):
     sequences, labels = [], []
     
     for word_index, word_id in enumerate(words_id):
+        print(word_index, word_id, enumerate(words_id))
         hdf_path = os.path.join(KEYPOINTS_PATH, f"{word_id}.h5")
         data = pd.read_hdf(hdf_path, key='data')
         for _, df_sample in data.groupby('sample'):

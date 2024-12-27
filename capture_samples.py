@@ -137,7 +137,5 @@ def capture_samples(margin_frame=1, min_cant_frames=5, delay_frames=0):
 
             cv2.destroyAllWindows()
 
-
-#Solo se ejecuta si se abre específicamente este script
 if __name__ == "__main__": 
     capture_samples()
