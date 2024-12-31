@@ -48,7 +48,8 @@ def evaluate_model(src=None, threshold=0.8, margin_frame=1, delay_frames=3):
     
     with Holistic() as holistic_model:
         video = cv2.VideoCapture(src or 0)
-        
+        words_text = json.load(open(DICT_JSON_PATH, 'r'))
+
         while video.isOpened():
             ret, frame = video.read()
             if not ret: break
@@ -65,6 +66,7 @@ def evaluate_model(src=None, threshold=0.8, margin_frame=1, delay_frames=3):
                     kp_seq.append(kp_frame)
             
             else:
+
                 if count_frame >= MIN_LENGTH_FRAMES + margin_frame:
                     fix_frames += 1
                     if fix_frames < delay_frames:
@@ -77,7 +79,7 @@ def evaluate_model(src=None, threshold=0.8, margin_frame=1, delay_frames=3):
                     print(np.argmax(res), f"({res[np.argmax(res)] * 100:.2f}%)")
                     if res[np.argmax(res)] > threshold:
                         word_id = word_ids[np.argmax(res)].split('-')[0]
-                        
+
                         sent = words_text.get(word_id)
                         sentence.insert(0, sent)
                         text_to_speech(sent) # ONLY LOCAL (NO SERVER)
@@ -92,7 +94,7 @@ def evaluate_model(src=None, threshold=0.8, margin_frame=1, delay_frames=3):
                 cv2.putText(frame, ' | '.join(sentence), FONT_POS, FONT, FONT_SIZE, (255, 255, 255))
                 
                 draw_keypoints(frame, results)
-                cv2.imshow('Traductor LSP', frame)
+                cv2.imshow('Traductor LSEC', frame)
                 if cv2.waitKey(10) & 0xFF == ord('q'):
                     break
                     
