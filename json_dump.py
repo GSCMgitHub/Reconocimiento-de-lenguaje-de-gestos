@@ -5,7 +5,7 @@ from constants import *
 
 
 def j_dump(file_path_LIST, file_path_DICT, info_path, debug=False):
-    #1. Creación de nuevo contenido para el archivo JSON (diccionario y lista)
+    #1. Creación de nuevo contenido para los archivos JSON (diccionario y lista)
     keys = os.listdir(info_path)
     values = []
 
@@ -53,7 +53,7 @@ def j_dump(file_path_LIST, file_path_DICT, info_path, debug=False):
     with open(file_path_DICT, 'w') as file_d: #DICCIONARIO
         file_d = json.dump(dictionary, file_d, indent=4)
 
-    #DEBUG 3
+    #DEBUG 2
     if debug:
         with open(file_path_DICT, 'r') as file_d:
             new_data_dict = json.load(file_d)
