@@ -1,8 +1,12 @@
+##WORK IN PROGRESS: ESTE PROYECTO TODAVÍA NO ESTÁ TERMINADO.
+
 Este es un modelo de una red neuronal que traduce Lengua de Señas Ecuatoriana (LSEC) a texto (y voz). Se ha utilizado MediaPipe para obtener los puntos de la seña y para el entrenamiento se usan TensorFlow y Keras.
 
 ## SCRIPTS PRINCIPALES
+- webscrap_samples.py → obtiene las muestras por medio de scrapping (las saca del sitio web).
 - capture_samples.py → captura las muestras y las ubica en la carpeta frame_actions.
 - normalize_samples.py → normaliza las muestras para que todas tengan la misma cantidad de frames (importante).
+- json_dump.py → llena los arcrhivos json (importantes), que sirven para otros scripts.
 - create_keypoints.py → crea los keypoints que se usarán en el entrenamiento.
 - training_model.py → entrena la red neuronal.
 - evaluate_model.py → donde se realiza la prueba de la red neuronal.
@@ -10,7 +14,7 @@ Este es un modelo de una red neuronal que traduce Lengua de Señas Ecuatoriana (
 
 ## SCRIPTS SECUNDARIOS
 - model.py → aquí se ajusta el modelo de la red neuronal.
-- constants.py → ajustes de la red neuronal.
+- constants.py → configuración/ajustes de la red neuronal.
 - helpers.py → funciones que se utilizan en los scripts principales.
 
 ## Pasos para probar la red neuronal
