@@ -14,16 +14,13 @@ Este es un modelo de una red neuronal que traduce Lengua de Señas Ecuatoriana (
 - helpers.py → funciones que se utilizan en los scripts principales.
 
 ## Pasos para probar la red neuronal
-1. Obtener muestras
-   1.1. (automático) Usar webscrap_samples.py
-   1.2. (manual) Poner videos en la carpeta de entrada
-3. Capturar las muestras con capture_samples.py
-4. Normalizar las muestras con normalize_samples.py
-5. Llenar los archivos .json con json_dump.py
-6. Generar los .h5 (keypoints) de cada palabra con create_keypoints.py
-7. Entrenar el modelo con training_model.py
-8. Realizar pruebas con evaluate_model.py
+1. Capturar las muestras con capture_samples.py
+2. Normalizar las muestras con normalize_samples.py
+3. Llenar los archivos .json con json_dump.py
+4. Generar los .h5 (keypoints) de cada palabra con create_keypoints.py
+5. Entrenar el modelo con training_model.py
+6. Realizar pruebas con evaluate_model.py
 
 ## Video de la explicación del código original:
 https://youtu.be/3EK0TxfoAMk
-Nota: Esta es una versión modificada, el video explica sobre la versión anterior a esta.
+Nota: Esta es una versión modificada, el video explica sobre la versión original.
