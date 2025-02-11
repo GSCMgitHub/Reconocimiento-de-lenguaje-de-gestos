@@ -1,27 +1,36 @@
 import os
 import json
-import constants
 from constants import *
 
 
-def j_dump(file_path_LIST, file_path_DICT, info_path, debug=False):
+def json_dump(file_path_LIST = WORDS_JSON_PATH, file_path_DICT = DICT_JSON_PATH, info_path = FRAME_ACTIONS_PATH, show_info=True):
     #1. Creación de nuevo contenido para los archivos JSON (diccionario y lista)
-    keys = os.listdir(info_path)
-    values = []
+    originals = os.listdir(info_path)
+    fixed = []
 
-    for word in keys:
-        fixed_text = word.replace('_', ' ')
-        if debug:
-            print('Texto arreglado: ', fixed_text)
-        values.append(fixed_text)     
-    dictionary = dict(zip(keys, values))
+    for word in originals:
+        fixed_text_part1 = word.replace('_', ' ')
+        fixed_text_part2 = fixed_text_part1.upper()
+        if show_info:
+            print('Texto original - Texto arreglado: ', word, ' - ', fixed_text_part2)
+        fixed.append(fixed_text_part2)     
+    dictionary = dict(zip(originals, fixed))
 
     words_list = { 
         "word_ids": [
 
         ]
     }
-    words_list["word_ids"].extend(values)   
+
+    words_dict = { 
+        "words_text": {
+
+        }
+
+    }
+
+    words_list["word_ids"].extend(fixed)
+    words_dict["word_text"].update(dictionary)   
 
     # 2. Lee el archivo JSON (diccionario)
     with open(file_path_DICT, 'r') as file_d:
@@ -30,13 +39,12 @@ def j_dump(file_path_LIST, file_path_DICT, info_path, debug=False):
     with open(file_path_LIST, 'r') as file_l:
         data_list = json.load(file_l)
     
-    #DEBUG 1
-    if debug:
+    if show_info:
         print('\n')
 
         print('Diccionario: ', dictionary)
-        print('Claves: ', keys)
-        print('Valores: ', values)
+        print('Claves: ', originals)
+        print('Valores: ', fixed)
         print('\n')
 
         print('Archivo (diccionario): ', file_d)
@@ -53,19 +61,20 @@ def j_dump(file_path_LIST, file_path_DICT, info_path, debug=False):
     with open(file_path_DICT, 'w') as file_d: #DICCIONARIO
         file_d = json.dump(dictionary, file_d, indent=4)
 
-    #DEBUG 2
-    if debug:
+    if show_info:
         with open(file_path_DICT, 'r') as file_d:
             new_data_dict = json.load(file_d)
             print('Contenido JSON actual (diccionario): ', new_data_dict)
+
         with open(file_path_LIST, 'r') as file_d:
             new_data_list = json.load(file_d)
             print('Contenido JSON actual (lista): ', new_data_list)
+
         print('\n')
 
     #Ojo a la nota de acá
         print("""NOTA IMPORTANTE:
-Todavía hay trabajo manual: poner tíldes y cualquier otro signo o mayúsculas/minúsculas que sean importantes.""")
+                 Todavía hay trabajo manual: poner tíldes y cualquier otro signo que sea importante.\n""")
    
 if __name__ == "__main__":
-    j_dump(WORDS_JSON_PATH, DICT_JSON_PATH, FRAME_ACTIONS_PATH, True)
+    json_dump(WORDS_JSON_PATH, DICT_JSON_PATH, FRAME_ACTIONS_PATH)

@@ -29,7 +29,7 @@ def there_hand(results: NamedTuple) -> bool:
 def get_word_ids(path):
     with open(path, 'r') as json_file:
         data = json.load(json_file)
-        return data.get('word_ids')
+        return data['words_ids']
 
 # CAPTURE SAMPLES
 def draw_keypoints(image, results):
@@ -121,3 +121,64 @@ def get_sequences_and_labels(words_id):
             labels.append(word_index)
                     
     return sequences, labels
+
+# Creación de directorios (en caso de que no existan)
+def create_directories():
+    creation_amount = 0
+    print('\nCreando directorios...\n')
+
+    if not os.path.exists(VIDEO_FILE_INPUT_PATH): 
+        os.makedirs(VIDEO_FILE_INPUT_PATH)
+        print('Se creó un nuevo directorio: ', VIDEO_FILE_INPUT_PATH, '\n')
+        creation_amount += 1
+
+    if not os.path.exists(FRAME_ACTIONS_PATH): 
+        os.makedirs(FRAME_ACTIONS_PATH)
+        print('Se creó un nuevo directorio: ', FRAME_ACTIONS_PATH, '\n')
+        creation_amount += 1
+    
+    if not os.path.exists(DATA_PATH): 
+        os.makedirs(DATA_PATH)
+        print('Se creó un nuevo directorio: ', DATA_PATH, '\n')
+        creation_amount += 1
+    
+    if not os.path.exists(DATA_JSON_PATH): 
+        os.makedirs(DATA_JSON_PATH)
+        print('Se creó un nuevo directorio: ', DATA_JSON_PATH, '\n')
+        creation_amount += 1
+    
+    if not os.path.exists(MODEL_FOLDER_PATH): 
+        os.makedirs(MODEL_FOLDER_PATH)
+        print('Se creó un nuevo directorio: ', MODEL_FOLDER_PATH, '\n')
+        creation_amount += 1
+
+    if not os.path.exists(MODEL_PATH): 
+        os.makedirs(MODEL_PATH)
+        print('Se creó un nuevo directorio: ', MODEL_PATH, '\n')
+        creation_amount += 1
+    
+    if not os.path.exists(KEYPOINTS_PATH): 
+        os.makedirs(KEYPOINTS_PATH)
+        print('Se creó un nuevo directorio: ', KEYPOINTS_PATH, '\n')
+        creation_amount += 1
+    
+    if not os.path.exists(WORDS_JSON_PATH): 
+        os.makedirs(WORDS_JSON_PATH)
+        print('Se creó un nuevo directorio: ', WORDS_JSON_PATH, '\n')
+        creation_amount += 1
+    
+    if not os.path.exists(DICT_JSON_PATH): 
+        os.makedirs(DICT_JSON_PATH)
+        print('Se creó un nuevo directorio: ', DICT_JSON_PATH, '\n')
+        creation_amount += 1
+    folders
+    if creation_amount == 0:
+        print('No se creó ningún directorio (los directorios ya existen).\n')
+    else:
+        print('Se crearon ', creation_amount, ' directorios en total.\n')
+
+
+if __name__ == '__main__':
+    create_folders()
+    
+

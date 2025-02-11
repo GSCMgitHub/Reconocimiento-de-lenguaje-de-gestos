@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 def webscrap_samples(url_specific = 'https://www.utm.edu.ec/inclusion/index.php/servicios/apoyo-educativo/glosario-de-lengua-de-senias-ecuatorianas-lsec', url_general = 'https://www.utm.edu.ec'):
     
     '''
-        ### 1.  Con url_specific, se buscarán valores href, los cuales serán usados para encontrar 
+        ### PARTE 1.  Con url_specific, se buscarán valores href, los cuales serán usados para encontrar 
                 las urls donde se encuentran los videos.
 
                 Aquí un ejemplo de un valor href: 
@@ -43,7 +43,7 @@ def webscrap_samples(url_specific = 'https://www.utm.edu.ec/inclusion/index.php/
         diccionario_href = dict(zip(letras,href_s))
 
         '''
-            2.  
+            PARTE 2.  
                 2.1. Con url_general, se formarán las url's donde están los videos.
 
                     Valor href: 
@@ -63,6 +63,7 @@ def webscrap_samples(url_specific = 'https://www.utm.edu.ec/inclusion/index.php/
         src_s = []
 
         for letra, href in diccionario_href.items():
+            
             sub_url = url_general + href
             sub_response = requests.get(sub_url, verify=False)
 
@@ -96,7 +97,7 @@ def webscrap_samples(url_specific = 'https://www.utm.edu.ec/inclusion/index.php/
             download_links.append(download_url)
 
         '''
-            ### 3.  De los links de descarga, se extraen los archivos (videos). Los archivos son guardados dentro de
+            ### PARTE 3.  De los links de descarga, se extraen los archivos (videos). Los archivos son guardados dentro de
                     VIDEO_FILE_INPUT_PATH.
         '''
         video_amount = 0

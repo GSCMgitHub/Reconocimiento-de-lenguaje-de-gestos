@@ -78,7 +78,7 @@ if __name__ == "__main__":
             print(f'Normalizando frames para "{word_id}"...')
             process_directory(word_path, MODEL_FRAMES)
     
-    # sample_directory = r"E:\Data\LSP Project\RED NEURONAL\frame_actions\buenos_dias\sample_240113195007489206"
+    # sample_directory = r"E:\Data\LSEC Project\RED NEURONAL\frame_actions\buenos_dias\sample_240113195007489206"
     # frames = read_frames_from_directory(sample_directory)
     # normalized_frames = normalize_frames(frames, 15)
     # clear_directory(sample_directory)

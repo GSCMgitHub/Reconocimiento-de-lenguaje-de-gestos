@@ -15,6 +15,7 @@ from text_to_speech import text_to_speech
 
 
 class VideoRecorder(QMainWindow):
+
     def __init__(self):
         super().__init__()
         loadUi('mainwindow.ui', self)
@@ -42,6 +43,11 @@ class VideoRecorder(QMainWindow):
     
     def update_frame(self):
         word_ids = get_word_ids(WORDS_JSON_PATH)
+
+        with open('words_dict', 'r') as file:
+            words_dict = json.load(file)
+        words_text = words_dict['words_text']
+
         ret, frame = self.capture.read()
         if not ret: return
         

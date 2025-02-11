@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return 'LSP Translate'
+    return 'LSEC Translate'
 
 @app.route('/upload_video', methods=['POST'])
 def upload_video():
