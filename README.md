@@ -1,4 +1,4 @@
-## WORK IN PROGRESS: ESTE PROYECTO TODAVÍA NO ESTÁ TERMINADO.
+# WORK IN PROGRESS: ESTE PROYECTO TODAVÍA NO ESTÁ TERMINADO.
 
 Este es un modelo de una red neuronal que traduce Lengua de Señas Ecuatoriana (LSEC) a texto (y voz). Se ha utilizado MediaPipe para obtener los puntos de la seña y para el entrenamiento se usan TensorFlow y Keras.
 
