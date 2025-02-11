@@ -171,7 +171,6 @@ def create_directories():
         os.makedirs(DICT_JSON_PATH)
         print('Se creó un nuevo directorio: ', DICT_JSON_PATH, '\n')
         creation_amount += 1
-    folders
     if creation_amount == 0:
         print('No se creó ningún directorio (los directorios ya existen).\n')
     else:
@@ -179,6 +178,6 @@ def create_directories():
 
 
 if __name__ == '__main__':
-    create_folders()
+    create_directories()
     
 
