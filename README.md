@@ -18,7 +18,7 @@ Este es un modelo de una red neuronal que traduce Lengua de Señas Ecuatoriana (
 - helpers.py → funciones que se utilizan en los scripts principales y creación de directorios faltantes.
 
 ## Pasos para probar la red neuronal
-1. Obtener muestras
+1. Obtener muestras [URLS: url_specific = 'https://www.utm.edu.ec/inclusion/index.php/servicios/apoyo-educativo/glosario-de-lengua-de-senias-ecuatorianas-lsec', url_general = 'https://www.utm.edu.ec']
    1.1. (automático) Usar webscrap_samples.py
    1.2. (manual) Poner videos en la carpeta de entrada
 3. Capturar las muestras con capture_samples.py
