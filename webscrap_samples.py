@@ -9,7 +9,13 @@ from bs4 import BeautifulSoup
     Cabe decir que esto funciona para un sitio en específico (me refiero al enlace en url_specific).
 '''
 
-def webscrap_samples(url_specific = 'https://www.utm.edu.ec/inclusion/index.php/servicios/apoyo-educativo/glosario-de-lengua-de-senias-ecuatorianas-lsec', url_general = 'https://www.utm.edu.ec'):
+def webscrap_samples(url_specific = 'https://www.utm.edu.ec/inclusion/servicios/apoyo-educativo/glosario-de-lengua-de-senias-ecuatorianas-lsec', url_general = 'https://www.utm.edu.ec'):
+    
+    '''
+    ### OBTENER MUESTRAS VÍA SCRAPPING
+    Busca y descarga los videos, y los guarda en la carpeta de entrada (VIDEO_FILE_INPUT_PATH).
+    Cabe decir que esto funciona para un sitio en específico (me refiero al enlace en el argumento url_specific).
+'''
     
     '''
         ### PARTE 1.  Con url_specific, se buscarán valores href, los cuales serán usados para encontrar 

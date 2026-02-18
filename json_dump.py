@@ -4,6 +4,13 @@ from constants import *
 
 
 def json_dump(file_path_LIST = WORDS_JSON_PATH, file_path_DICT = DICT_JSON_PATH, info_path = FRAME_ACTIONS_PATH, show_info=True):
+    '''### CREAR CONTENIDO PARA LOS ARCHIVOS JSON
+        Se crea un nuevo contenido para los archivos JSON (diccionario y lista) a partir de los nombres de los archivos de video que se encuentran en `info_path`. \n
+        El nuevo contenido se escribe de vuelta a los archivos JSON. \n\
+            
+        ##### NOTA IMPORTANTE:\n
+        ##### Todavía hay trabajo manual: poner tíldes y cualquier otro signo que sea importante.\n
+    '''
     #1. Creación de nuevo contenido para los archivos JSON (diccionario y lista)
     originals = os.listdir(info_path)
     fixed = []

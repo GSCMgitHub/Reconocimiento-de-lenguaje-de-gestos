@@ -11,3 +11,6 @@ tables
 gTTS
 PyQt5
 pygame
+moviePy
+beautifulsoup4
+scikit-learn

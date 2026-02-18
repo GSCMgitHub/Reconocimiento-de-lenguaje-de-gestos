@@ -7,7 +7,7 @@ from PyQt5.uic import loadUi
 
 import numpy as np
 from keras.models import load_model
-from mediapipe.solutions.holistic import Holistic
+from mediapipe.modules.python.solutions.holistic import Holistic
 from evaluate_model import normalize_keypoints
 from helpers import *
 from constants import *
@@ -17,6 +17,9 @@ from text_to_speech import text_to_speech
 class VideoRecorder(QMainWindow):
 
     def __init__(self):
+        '''### VENTANA PRINCIPAL
+        Esta clase representa la ventana principal de la aplicación. Se encarga de capturar video desde la cámara, procesar los frames para detectar keypoints, y mostrar el resultado en la interfaz gráfica.
+        '''
         super().__init__()
         loadUi('mainwindow.ui', self)
         
@@ -32,6 +35,18 @@ class VideoRecorder(QMainWindow):
         self.timer.start(30)  # Update frame every 30ms
     
     def init_lsp(self):
+        '''### INICIALIZAR MODELO Y VARIABLES
+        Se inicializa el modelo de mediapipe, se cargan los pesos del modelo de reconocimiento de palabras, y se definen las variables necesarias para el proceso de captura y reconocimiento.
+            #### Variables:
+            > `kp_seq`: Lista que almacena la secuencia de keypoints detectados en cada frame.
+            > `sentence`: Lista que almacena las palabras reconocidas hasta el momento.
+            > `count_frame`: Contador de frames que se han procesado desde que se detectó la última mano.
+            > `fix_frames`: Contador de frames que se han procesado sin detectar manos después de haber grabado una secuencia de keypoints.
+            > `margin_frame`: Número de frames que se deben procesar después de detectar la última mano antes de considerar que la secuencia de keypoints ha terminado.
+            > `delay_frames`: Número de frames que se deben procesar sin detectar manos antes de comenzar a procesar la secuencia de keypoints para predecir la palabra reconocida.
+            > `model`: Modelo de reconocimiento de palabras cargado desde el archivo especificado en `MODEL_PATH`.
+            > `recording`: Booleano que indica si se está grabando una secuencia de keypoints (es decir, si se han detectado manos recientemente y se están procesando los frames para capturar la secuencia de keypoints).
+        '''
         self.holistic_model = Holistic()
         self.kp_seq, self.sentence = [], []
         self.count_frame = 0
@@ -42,6 +57,12 @@ class VideoRecorder(QMainWindow):
         self.recording = False
     
     def update_frame(self):
+        '''### ACTUALIZAR FRAME
+        Esta función se ejecuta cada vez que el timer se activa (cada 30ms). Captura un frame de la cámara, procesa los keypoints, y actualiza la interfaz gráfica con el video y el texto reconocido.
+            - Si se detectan manos o si se está grabando, se incrementa el contador de frames y se agregan los keypoints a la secuencia.
+            - Si no se detectan manos y se ha grabado una cantidad suficiente de frames, se procesa la secuencia de keypoints para predecir la palabra reconocida. Si la confianza de la predicción es alta, se obtiene el texto correspondiente y se reproduce mediante text-to-speech.
+            - Finalmente, se actualiza el label con el texto reconocido y se muestra el video con los keypoints dibujados.
+        '''
         word_ids = get_word_ids(WORDS_JSON_PATH)
 
         with open('words_dict', 'r') as file:

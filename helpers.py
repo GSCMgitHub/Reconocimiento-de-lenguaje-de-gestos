@@ -1,15 +1,31 @@
 import json
 import os
 import cv2
-from mediapipe.python.solutions.holistic import FACEMESH_CONTOURS, POSE_CONNECTIONS, HAND_CONNECTIONS
-from mediapipe.python.solutions.drawing_utils import draw_landmarks, DrawingSpec
+
+import mediapipe.python as mp
+
+mp_holistic = mp.solutions.holistic
+mp_drawing = mp.solutions.drawing_utils
+
+FACEMESH_CONTOURS = mp_holistic.FACEMESH_CONTOURS
+POSE_CONNECTIONS = mp_holistic.POSE_CONNECTIONS
+HAND_CONNECTIONS = mp_holistic.HAND_CONNECTIONS
+
 import numpy as np
 import pandas as pd
 from typing import NamedTuple
 from constants import *
 
+import sys
+
 # GENERAL
 def mediapipe_detection(image, model):
+    '''
+    ### DETECCIÓN DE KEYPOINTS CON MEDIAPIPE
+    A partir de una imagen y un modelo de mediapipe, retorna los resultados de la detección de keypoints. \n
+    La imagen se convierte a RGB y se marca como no escribible para mejorar el rendimiento. \n
+    Se procesan los keypoints con el modelo de mediapipe y se retornan los resultados.
+    '''
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image.flags.writeable = False
     results = model.process(image)
@@ -24,9 +40,25 @@ def create_folder(path):
         os.makedirs(path)
 
 def there_hand(results: NamedTuple) -> bool:
+    '''
+    #### "¿ACASO HAY MANO DETECTADA?"
+    Retorna `True` si se detecta al menos una mano (izquierda o derecha), o `False` si no se detecta ninguna mano.
+    '''
     return results.left_hand_landmarks or results.right_hand_landmarks
 
 def get_word_ids(path):
+    '''
+    ### OBTENER IDS DE PALABRAS DESDE JSON
+    Lee el archivo JSON y retorna la lista de ids de palabras.
+    #### Estructura del JSON:
+        {
+            "words_ids": [
+                "1-LETRA_A",
+                "2-LETRA_B",
+                ...
+            ]
+        }
+    '''
     with open(path, 'r') as json_file:
         data = json.load(json_file)
         return data['words_ids']
@@ -34,47 +66,60 @@ def get_word_ids(path):
 # CAPTURE SAMPLES
 def draw_keypoints(image, results):
     '''
-    Dibuja los keypoints en la imagen
+    ### DIBUJAR KEYPOINTS EN LA IMAGEN
+    Dibuja los keypoints de la cara, pose y manos en la imagen. \n
+    Se utilizan diferentes colores y grosores para cada parte.
     '''
-    draw_landmarks(
+    mp_drawing.draw_landmarks(
         image,
         results.face_landmarks,
         FACEMESH_CONTOURS,
-        DrawingSpec(color=(80, 110, 10), thickness=1, circle_radius=1),
-        DrawingSpec(color=(80, 256, 121), thickness=1, circle_radius=1),
+        mp_drawing.DrawingSpec(color=(80, 110, 10), thickness=1, circle_radius=1),
+        mp_drawing.DrawingSpec(color=(80, 256, 121), thickness=1, circle_radius=1),
     )
     # Draw pose connections
-    draw_landmarks(
+    mp_drawing.draw_landmarks(
         image,
         results.pose_landmarks,
         POSE_CONNECTIONS,
-        DrawingSpec(color=(80, 22, 10), thickness=2, circle_radius=4),
-        DrawingSpec(color=(80, 44, 121), thickness=2, circle_radius=2),
+        mp_drawing.DrawingSpec(color=(80, 22, 10), thickness=2, circle_radius=4),
+        mp_drawing.DrawingSpec(color=(80, 44, 121), thickness=2, circle_radius=2),
     )
     # Draw left hand connections
-    draw_landmarks(
+    mp_drawing.draw_landmarks(
         image,
         results.left_hand_landmarks,
         HAND_CONNECTIONS,
-        DrawingSpec(color=(121, 22, 76), thickness=2, circle_radius=4),
-        DrawingSpec(color=(121, 44, 250), thickness=2, circle_radius=2),
+        mp_drawing.DrawingSpec(color=(121, 22, 76), thickness=2, circle_radius=4),
+        mp_drawing.DrawingSpec(color=(121, 44, 250), thickness=2, circle_radius=2),
     )
     # Draw right hand connections
-    draw_landmarks(
+    mp_drawing.draw_landmarks(
         image,
         results.right_hand_landmarks,
         HAND_CONNECTIONS,
-        DrawingSpec(color=(245, 117, 66), thickness=2, circle_radius=4),
-        DrawingSpec(color=(245, 66, 230), thickness=2, circle_radius=2),
+        mp_drawing.DrawingSpec(color=(245, 117, 66), thickness=2, circle_radius=4),
+        mp_drawing.DrawingSpec(color=(245, 66, 230), thickness=2, circle_radius=2),
     )
 
 def save_frames(frames, output_folder):
+    '''
+    ### GUARDAR FRAMES EN CARPETA
+     Guarda los frames en la carpeta de salida, con formato `1.jpg`, `2.jpg`, etc. \n
+     Si la carpeta no existe, la crea.
+    '''
+    create_folder(output_folder)
     for num_frame, frame in enumerate(frames):
         frame_path = os.path.join(output_folder, f"{num_frame + 1}.jpg")
         cv2.imwrite(frame_path, cv2.cvtColor(frame, cv2.COLOR_BGR2BGRA))
 
 # CREATE KEYPOINTS
 def extract_keypoints(results):
+    '''
+    ### EXTRAER KEYPOINTS DE RESULTADOS DE MEDIAPIPE
+    A partir de los resultados de mediapipe, extrae los keypoints de pose, cara y manos. \n
+    Si no se detecta alguna parte, se rellena con ceros.
+    '''
     pose = np.array([[res.x, res.y, res.z, res.visibility] for res in results.pose_landmarks.landmark]).flatten() if results.pose_landmarks else np.zeros(33*4)
     face = np.array([[res.x, res.y, res.z] for res in results.face_landmarks.landmark]).flatten() if results.face_landmarks else np.zeros(468*3)
     lh = np.array([[res.x, res.y, res.z] for res in results.left_hand_landmarks.landmark]).flatten() if results.left_hand_landmarks else np.zeros(21*3)
@@ -109,6 +154,10 @@ def insert_keypoints_sequence(df, n_sample:int, kp_seq):
 
 # TRAINING MODEL
 def get_sequences_and_labels(words_id):
+    '''
+    ### OBTENER SECUENCIAS Y ETIQUETAS
+    Lee los archivos de keypoints de cada palabra y retorna las secuencias de keypoints y sus etiquetas correspondientes
+    '''
     sequences, labels = [], []
     
     for word_index, word_id in enumerate(words_id):
@@ -124,6 +173,11 @@ def get_sequences_and_labels(words_id):
 
 # Creación de directorios (en caso de que no existan)
 def create_directories():
+    '''
+    ### CREACIÓN DE DIRECTORIOS
+    Si falta algún directorio / *path*, lo crea. \n
+    Si ya existen todos, se informa con `print('...')`.
+    '''
     creation_amount = 0
     print('\nCreando directorios...\n')
 
@@ -171,13 +225,15 @@ def create_directories():
         os.makedirs(DICT_JSON_PATH)
         print('Se creó un nuevo directorio: ', DICT_JSON_PATH, '\n')
         creation_amount += 1
+
     if creation_amount == 0:
-        print('No se creó ningún directorio (los directorios ya existen).\n')
+        print('No se creó ningún directorio (seguramente porque los directorios ya existen).\n')
     else:
         print('Se crearon ', creation_amount, ' directorios en total.\n')
 
 
 if __name__ == '__main__':
+    print(f"Estás usando la versión de Python {sys.version} \n")
     create_directories()
     
 
